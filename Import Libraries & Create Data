@@ -1,0 +1,5 @@
+import matplotlib.pyplot as plt 
+# Data 
+months = ['Jan', 'Feb', 'Mar', 'Apr', 'May'] 
+sales = [200, 240, 300, 350, 400] 
+profit = [50, 70, 90, 100, 120]
