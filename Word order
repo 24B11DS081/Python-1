@@ -1,0 +1,29 @@
+import sys
+
+def solve():
+    # Read n from the first line
+    try:
+        line = sys.stdin.readline()
+        if not line:
+            return
+        n = int(line.strip())
+    except EOFError:
+        return
+
+    word_counts = {}
+
+    for _ in range(n):
+        word = sys.stdin.readline().strip()
+        if word:
+            # If word is in dict, increment; otherwise, initialize to 1
+            word_counts[word] = word_counts.get(word, 0) + 1
+
+    # First line: Number of distinct words
+    print(len(word_counts))
+
+    # Second line: Counts separated by space
+    # We join the values converted to strings
+    print(*(word_counts.values()))
+
+if __name__ == "__main__":
+    solve()
