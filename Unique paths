@@ -1,0 +1,16 @@
+class Solution:
+    def uniquePaths(self, m: int, n: int) -> int:
+        # Initialize a 1D array to save space (O(n) space instead of O(m*n))
+        # Each element represents the number of ways to reach a cell in the current row
+        row = [1] * n
+        
+        # Iterate through rows (skipping the first row because it's already all 1s)
+        for i in range(m - 1):
+            new_row = [1] * n
+            # Iterate through columns (skipping the first column)
+            for j in range(1, n):
+                # New value = value to the left + value from the previous row
+                new_row[j] = new_row[j - 1] + row[j]
+            row = new_row
+            
+        return row[-1]
