@@ -1,0 +1,17 @@
+class Solution:
+    def merge(self, intervals: list[list[int]]) -> list[list[int]]:
+        # Step 1: Sort by the start value of each interval
+        intervals.sort(key=lambda x: x[0])
+        
+        merged = []
+        
+        for interval in intervals:
+            # If the list is empty or there is no overlap
+            if not merged or merged[-1][1] < interval[0]:
+                merged.append(interval)
+            else:
+                # There is an overlap, merge the current interval with the last one
+                # We update the end to be the maximum of both
+                merged[-1][1] = max(merged[-1][1], interval[1])
+                
+        return merged
