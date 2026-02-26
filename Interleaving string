@@ -1,0 +1,29 @@
+class Solution:
+    def isInterleave(self, s1: str, s2: str, s3: str) -> bool:
+        m, n = len(s1), len(s2)
+        
+        # Base check: total length must match
+        if m + n != len(s3):
+            return False
+        
+        # dp[i][j] means s3[:i+j] is an interleaving of s1[:i] and s2[:j]
+        dp = [[False] * (n + 1) for _ in range(m + 1)]
+        
+        for i in range(m + 1):
+            for j in range(n + 1):
+                # Empty strings case
+                if i == 0 and j == 0:
+                    dp[i][j] = True
+                # Case: s1 is empty, only check s2
+                elif i == 0:
+                    dp[i][j] = dp[i][j-1] and s2[j-1] == s3[i+j-1]
+                # Case: s2 is empty, only check s1
+                elif j == 0:
+                    dp[i][j] = dp[i-1][j] and s1[i-1] == s3[i+j-1]
+                # Case: Both have characters, check both possibilities
+                else:
+                    from_s1 = dp[i-1][j] and s1[i-1] == s3[i+j-1]
+                    from_s2 = dp[i][j-1] and s2[j-1] == s3[i+j-1]
+                    dp[i][j] = from_s1 or from_s2
+                    
+        return dp[m][n]
