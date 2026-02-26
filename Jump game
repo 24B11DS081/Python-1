@@ -1,0 +1,14 @@
+class Solution:
+    def canJump(self, nums: list[int]) -> bool:
+        # Initialize the goal to the last index
+        goal = len(nums) - 1
+        
+        # Iterate backwards from the second-to-last element to the first
+        for i in range(len(nums) - 2, -1, -1):
+            # If current index + max jump reach or exceed the current goal
+            if i + nums[i] >= goal:
+                # Move the goalpost to the current index
+                goal = i
+        
+        # If the goalpost reached the start, the path exists
+        return goal == 0
