@@ -1,0 +1,38 @@
+class Solution:
+    def exist(self, board: list[list[str]], word: str) -> bool:
+        rows, cols = len(board), len(board[0])
+        
+        def dfs(r, c, index):
+            # Base Case: We found all characters in the word
+            if index == len(word):
+                return True
+            
+            # Boundary and mismatch checks
+            if (r < 0 or r >= rows or 
+                c < 0 or c >= cols or 
+                board[r][c] != word[index]):
+                return False
+            
+            # Mark the cell as visited using a temp variable
+            temp = board[r][c]
+            board[r][c] = "#"
+            
+            # Explore 4 directions: Right, Left, Down, Up
+            found = (dfs(r, c + 1, index + 1) or 
+                     dfs(r, c - 1, index + 1) or 
+                     dfs(r + 1, c, index + 1) or 
+                     dfs(r - 1, c, index + 1))
+            
+            # Backtrack: Restore the cell's original value
+            board[r][c] = temp
+            
+            return found
+
+        # Try to start DFS from every cell in the grid
+        for r in range(rows):
+            for c in range(cols):
+                if board[r][c] == word[0]:
+                    if dfs(r, c, 0):
+                        return True
+        
+        return False
