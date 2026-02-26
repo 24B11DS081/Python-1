@@ -1,0 +1,27 @@
+class Solution:
+    def searchMatrix(self, matrix: list[list[int]], target: int) -> bool:
+        if not matrix or not matrix[0]:
+            return False
+            
+        m, n = len(matrix), len(matrix[0])
+        
+        # Binary search range for a virtual 1D array
+        low, high = 0, (m * n) - 1
+        
+        while low <= high:
+            mid = (low + high) // 2
+            
+            # Map the 1D index back to 2D row and column
+            row = mid // n
+            col = mid % n
+            
+            mid_val = matrix[row][col]
+            
+            if mid_val == target:
+                return True
+            elif mid_val < target:
+                low = mid + 1
+            else:
+                high = mid - 1
+                
+        return False
