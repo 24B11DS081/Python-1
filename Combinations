@@ -1,0 +1,21 @@
+class Solution:
+    def combine(self, n: int, k: int) -> list[list[int]]:
+        res = []
+        
+        def backtrack(start, current_combination):
+            # Base Case: If the combination is the right size
+            if len(current_combination) == k:
+                res.append(list(current_combination))
+                return
+            
+            # Recursive Step: Try numbers from 'start' up to n
+            # Optimization: No need to start if there aren't enough numbers left to fill k
+            for i in range(start, n + 1):
+                current_combination.append(i)
+                # Move to i + 1 to ensure we only pick larger numbers (prevents duplicates)
+                backtrack(i + 1, current_combination)
+                # Backtrack: remove the number so we can try the next 'i'
+                current_combination.pop()
+                
+        backtrack(1, [])
+        return res
