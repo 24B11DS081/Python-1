@@ -1,0 +1,18 @@
+class Solution:
+    def subsets(self, nums: list[int]) -> list[list[int]]:
+        res = []
+        
+        def backtrack(index, path):
+            # Every path we take is a valid subset, so we add it to results
+            res.append(list(path))
+            
+            for i in range(index, len(nums)):
+                # Include the number
+                path.append(nums[i])
+                # Move to the next element
+                backtrack(i + 1, path)
+                # Backtrack: Exclude the number to try the next branch
+                path.pop()
+                
+        backtrack(0, [])
+        return res
