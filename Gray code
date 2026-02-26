@@ -1,0 +1,16 @@
+class Solution:
+    def grayCode(self, n: int) -> list[int]:
+        # Start with the base case for n=0
+        res = [0]
+        
+        for i in range(n):
+            # The bit to add is 2^i (1, 2, 4, 8...)
+            bit_to_add = 1 << i
+            
+            # Take current results, reverse them, and add the new bit
+            # We iterate backwards to ensure the adjacent elements 
+            # across the "mirror line" only differ by that one bit.
+            for j in range(len(res) - 1, -1, -1):
+                res.append(res[j] | bit_to_add)
+                
+        return res
