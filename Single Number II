@@ -1,0 +1,6 @@
+class Solution:
+    def singleNumber(self, nums: List[int]) -> int:
+        x = 3 * sum(set(nums))
+        y = sum(nums) #------------- PLZ UPVOTE 🥹 ---------------
+        return (x-y)//2
+        
