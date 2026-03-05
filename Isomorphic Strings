@@ -1,0 +1,22 @@
+class Solution:
+    def isIsomorphic(self, s: str, t: str) -> bool:
+        
+        mapping = {}        # maps characters from s → t
+        used_chars = set()  # keeps track of characters in t that are already mapped
+        
+        for cs, ct in zip(s, t):
+            if cs in mapping:
+                # character already has a mapping
+                if mapping[cs] != ct:
+                    # inconsistent mapping → not isomorphic
+                    return False
+            else:
+                # character has no mapping yet
+                if ct in used_chars:
+                    # to ensure one-to-one mapping
+                    return False
+                # create new mapping and mark character in t as used
+                mapping[cs] = ct
+                used_chars.add(ct)
+
+        return True
