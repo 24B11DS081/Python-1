@@ -1,0 +1,44 @@
+class Solution:
+    def maxPathSum(self, root):
+        # If the tree is empty, return 0
+        if not root:
+            return 0
+
+        # Initialize the maximum path sum to the lowest possible value
+        max_sum = float('-inf')
+
+        # Stack to help us traverse the tree without recursion
+        stack = []
+        current_node = root
+        last_visited = None
+
+        # Dictionary to store the best gain from each node
+        gains = {}
+
+        # Traverse the tree using a stack (post-order traversal)
+        while stack or current_node:
+            if current_node:
+                # Go as far left as possible, remembering the path
+                stack.append(current_node)
+                current_node = current_node.left
+            else:
+                # Look at the last node we visited
+                node_on_top = stack[-1]
+                # If there's a right child we haven't visited, go right
+                if node_on_top.right and last_visited != node_on_top.right:
+                    current_node = node_on_top.right
+                else:
+                    # Calculate the best gain from left and right children
+                    left_gain = max(gains.get(node_on_top.left, 0), 0)
+                    right_gain = max(gains.get(node_on_top.right, 0), 0)
+
+                    # Update the maximum path sum if this path is better
+                    max_sum = max(max_sum, node_on_top.val + left_gain + right_gain)
+
+                    # Store the best gain for this node
+                    gains[node_on_top] = node_on_top.val + max(left_gain, right_gain)
+
+                    # Mark this node as visited and remove it from the stack
+                    last_visited = stack.pop()
+        # Return the best path sum found
+        return max_sum
