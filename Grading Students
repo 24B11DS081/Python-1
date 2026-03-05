@@ -1,0 +1,54 @@
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+#
+# Complete the 'gradingStudents' function below.
+#
+# The function is expected to return an INTEGER_ARRAY.
+# The function accepts INTEGER_ARRAY grades as parameter.
+#
+
+def gradingStudents(grades):
+    result = []
+    
+    for grade in grades:
+        # Condition 1: Failing grades or grades that don't need rounding
+        if grade < 38:
+            result.append(grade)
+        else:
+            # Find the remainder when divided by 5
+            remainder = grade % 5
+            
+            # If the remainder is 3 or 4, the difference to the 
+            # next multiple of 5 is 2 or 1 respectively.
+            if remainder >= 3:
+                # Round up: Add the difference (5 - remainder)
+                result.append(grade + (5 - remainder))
+            else:
+                # Difference is 3 or more, do not round
+                result.append(grade)
+                
+    return result
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    grades_count = int(input().strip())
+
+    grades = []
+
+    for _ in range(grades_count):
+        grades_item = int(input().strip())
+        grades.append(grades_item)
+
+    result = gradingStudents(grades)
+
+    fptr.write('\n'.join(map(str, result)))
+    fptr.write('\n')
+
+    fptr.close()
