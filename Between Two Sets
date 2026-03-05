@@ -1,0 +1,55 @@
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+from functools import reduce
+
+
+def get_gcd(a, b):
+    while b:
+        a, b = b, a % b
+    return a
+
+def get_lcm(a, b):
+    if a == 0 or b == 0:
+        return 0
+    return abs(a * b) // get_gcd(a, b)
+
+def getTotalX(a, b):
+    # 1. Find LCM of all elements in 'a'
+    lcm_a = reduce(get_lcm, a)
+    
+    # 2. Find GCD of all elements in 'b'
+    gcd_b = reduce(get_gcd, b)
+    
+    # 3. Count multiples of lcm_a that divide gcd_b
+    count = 0
+    multiple = lcm_a
+    while multiple <= gcd_b:
+        if gcd_b % multiple == 0:
+            count += 1
+        multiple += lcm_a
+        
+    return count
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    first_multiple_input = input().rstrip().split()
+
+    n = int(first_multiple_input[0])
+
+    m = int(first_multiple_input[1])
+
+    arr = list(map(int, input().rstrip().split()))
+
+    brr = list(map(int, input().rstrip().split()))
+
+    total = getTotalX(arr, brr)
+
+    fptr.write(str(total) + '\n')
+
+    fptr.close()
