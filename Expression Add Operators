@@ -1,0 +1,44 @@
+class Solution:
+    def addOperators(self, num: str, target: int) -> List[str]:
+        n = len(num)
+
+        result = []
+        path = []
+
+        def backtrack(i: int, cur: int, prev: int):
+            if i == n:  # End of number reached
+                if cur == target: 
+                    result.append("".join(path))
+                return
+
+            # Try to add all possible numbers with operators
+            val, valstr = 0, ""
+            for j in range(i, n if num[i] != "0" else i + 1):
+                val = val * 10 + int(num[j])
+                valstr += num[j]
+
+                # +
+                path.append("+"); path.append(valstr)
+                backtrack(j + 1, cur + val, val)
+                path.pop(); path.pop()
+
+                # -
+                path.append("-"); path.append(valstr)
+                backtrack(j + 1, cur - val, -val)
+                path.pop(); path.pop()
+
+                # *
+                path.append("*"); path.append(valstr)
+                backtrack(j + 1, cur - prev + prev * val, prev * val)
+                path.pop(); path.pop()
+
+        # Iterate over first number without operator
+        val, valstr = 0, ""
+        for i in range(n if num[0] != "0" else 1):
+            val = val * 10 + int(num[i])
+            valstr += num[i]
+            path.append(valstr)
+            backtrack(i + 1, cur=val, prev=val)
+            path.pop()
+
+        return result
