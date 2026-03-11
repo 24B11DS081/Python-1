@@ -1,0 +1,24 @@
+class Solution:
+    def combinationSum3(self, k: int, n: int) -> List[List[int]]:
+        res = []
+        ans = []
+        def f(i, cur_sum, count):
+            if cur_sum > n:
+                return 
+            if cur_sum == n and count == 0:
+                if ans not in res:
+                    res.append(ans[:])
+            if i == 9:
+                return
+            # pick condittion
+            ans.append(i+1)
+            f(i+1, cur_sum + i+1, count-1)
+            # removing that element in the pending call
+            # backtracking
+            ans.pop()
+            # not pick
+            f(i+1, cur_sum, count)
+        # calling our function to populate the res array
+        f(0,0,k)
+        return res
+            
