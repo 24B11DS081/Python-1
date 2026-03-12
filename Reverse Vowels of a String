@@ -1,0 +1,14 @@
+class Solution:
+    def reverseVowels(self, s: str) -> str:
+        d = {}
+        for i, e in enumerate(s):
+            if e.lower() in 'aeiou':
+                d[i] = e
+
+        rd = {k: v for k, v in zip(reversed(d), d.values())}
+
+        s = list(s)
+        for i in rd:
+            s[i] = rd[i]
+
+        return ''.join(s)
