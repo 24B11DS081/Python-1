@@ -1,0 +1,24 @@
+class Solution:
+    def getHint(self, secret: str, guess: str) -> str:
+        bulls =0
+        cows=0
+        for i in range(len(secret)):
+            if (secret[i]==guess[i]):
+                bulls+=1
+        
+        countOfcharsInSecret = Counter(secret)
+
+        for g in guess:
+            if (countOfcharsInSecret[g]>=1):
+                cows+=1
+                countOfcharsInSecret[g]-=1
+        
+
+        cows = cows-bulls
+
+        return ""+str(bulls)+"A"+str(cows)+"B"
+
+            
+            
+
+        
