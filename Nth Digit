@@ -1,0 +1,19 @@
+class Solution:
+    def findNthDigit(self, n: int) -> int:
+        
+        digit_length = 1
+        count = 9
+        start_num = 1
+
+        while n > digit_length * count:
+            n -= digit_length * count
+            digit_length += 1
+            count *= 10
+            start_num *= 10
+
+        start_index_offset = (n - 1) // digit_length
+        actual_number = start_num + start_index_offset
+
+        digit_index = (n - 1) % digit_length
+
+        return int(str(actual_number)[digit_index])
