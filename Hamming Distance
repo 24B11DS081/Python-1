@@ -1,0 +1,15 @@
+class Solution:
+    def hammingDistance(self, x: int, y: int) -> int:
+        bitsx = bin(x)[2:]
+        bitsy = bin(y)[2:]
+        nx = len(bitsx)
+        ny = len(bitsy)
+        if nx < ny:
+            bitsx = "0"*(ny-nx) + bitsx
+        if ny < nx:
+            bitsy = "0"*(nx-ny) + bitsy
+        count = 0
+        for i in range(len(bitsx)):
+            if bitsx[i] != bitsy[i]:
+                count += 1
+        return count
