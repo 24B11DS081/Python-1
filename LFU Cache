@@ -1,0 +1,67 @@
+from collections import defaultdict, OrderedDict
+
+class LFUCache:
+    def __init__(self, capacity: int):
+        self.cap = capacity
+        self.size = 0
+
+        self.key2val = {}                 # key -> value
+        self.key2freq = {}                # key -> freq
+        self.freq2keys = defaultdict(OrderedDict)  # freq -> OrderedDict(key -> None)
+
+        self.minfreq = 0
+
+    def _touch(self, key: int):
+        """Key was accessed: bump its freq and update structures."""
+        freq = self.key2freq[key]
+
+        # Remove key from old frequency bucket
+        bucket = self.freq2keys[freq]
+        bucket.pop(key)
+
+        # If that bucket becomes empty, clean it up and maybe bump minfreq
+        if not bucket:
+            del self.freq2keys[freq]
+            if self.minfreq == freq:
+                self.minfreq += 1
+
+        # Add key to new frequency bucket at the "most recent" end
+        newfreq = freq + 1
+        self.key2freq[key] = newfreq
+        self.freq2keys[newfreq][key] = None  # insert to end
+
+    def get(self, key: int) -> int:
+        if key not in self.key2val:
+            return -1
+
+        self._touch(key)
+        return self.key2val[key]
+
+    def put(self, key: int, value: int) -> None:
+        if self.cap == 0:
+            return
+
+        # If key exists, update value and treat as access (freq++)
+        if key in self.key2val:
+            self.key2val[key] = value
+            self._touch(key)
+            return
+
+        # If full, evict LFU (and LRU among that freq)
+        if self.size == self.cap:
+            # Evict the oldest key in the minfreq bucket
+            k_evict, _ = self.freq2keys[self.minfreq].popitem(last=False)
+            del self.key2val[k_evict]
+            del self.key2freq[k_evict]
+
+            if not self.freq2keys[self.minfreq]:
+                del self.freq2keys[self.minfreq]
+
+            self.size -= 1
+
+        # Insert new key with freq = 1
+        self.key2val[key] = value
+        self.key2freq[key] = 1
+        self.freq2keys[1][key] = None
+        self.minfreq = 1
+        self.size += 1
