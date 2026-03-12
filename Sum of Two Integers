@@ -1,0 +1,48 @@
+class Solution:
+    def getSum(self, a: int, b: int) -> int:
+        # return sum([a,b])
+        count=0
+        if a>0 and b>0:
+            for i in range(a):
+                count+=1
+            for j in range(b):
+                count+=1
+            return count
+        elif(a<0 and b>0):
+            for i in range(abs(a)):
+                count-=1
+            for j in range(b):
+                count+=1
+            return count
+        elif(a>0 and b<0):
+            for i in range(a):
+                count+=1
+            for j in range(abs(b)):
+                count-=1
+            return count
+        elif(a<0 and b<0):
+            for i in range(abs(a)):
+                count-=1
+            for j in range(abs(b)):
+                count-=1
+            return count
+        elif(a==0 and b==0):
+            return count
+        elif(a==0 and b>0):
+            for i in range((b)):
+                count+=1
+            return count
+        elif(a==0 and b<0):
+            for i in range(abs(b)):
+                count-=1
+            return count
+        elif(a>0 and b==0):
+            for i in  range(abs(a)):
+                count+=1
+            return count
+        elif(a<0 and b==0):
+            for i in range(abs(a)):
+                count-=1
+            return count
+        
+        
