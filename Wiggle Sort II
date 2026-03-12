@@ -1,0 +1,13 @@
+class Solution:
+    def wiggleSort(self, nums: List[int]) -> None:
+        # Step 1: Sort the array
+        nums.sort()
+
+        # Step 2: Split into two halves
+        half = len(nums[::2])  # find mid
+        small = nums[:half][::-1]  # reverse smaller half
+        large = nums[half:][::-1]  # reverse larger half
+
+        # Step 3: Fill nums in wiggle pattern
+        nums[::2] = small
+        nums[1::2] = large
